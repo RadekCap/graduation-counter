@@ -2,51 +2,51 @@ const exams = [
     {
         date: "2026-04-01",
         dateLabel: "1. dubna",
-        name: "Slohovka CJ",
+        name: "Slohová práce ČJ",
         difficulty: null,
     },
     {
         date: "2026-04-07",
         dateLabel: "7. dubna",
-        name: "Slohovka AJ",
+        name: "Slohová práce AJ",
         difficulty: null,
     },
     {
         date: "2026-04-28",
         dateLabel: "28. dubna",
-        name: "Prakticka zkouska",
-        difficulty: 1,
+        name: "Praktická zkouška",
+        difficulty: 3,
     },
     {
         date: "2026-05-04",
-        dateLabel: "4. - 5. kvetna",
-        name: "DT AJ + CJ",
+        dateLabel: "4. – 5. května",
+        name: "DT AJ + ČJ",
         difficulty: null,
     },
     {
         date: "2026-05-11",
-        dateLabel: "11. - 12. kvetna",
-        name: "Obhajoby prakticka",
-        difficulty: 2,
+        dateLabel: "11. – 12. května",
+        name: "Obhajoby praktická",
+        difficulty: null,
     },
     {
         date: "2026-05-25",
-        dateLabel: "25. - 29. kvetna",
-        name: "Ustni CJ + AJ + VLV + KLN",
-        difficulty: 3,
+        dateLabel: "25. – 29. května",
+        name: "Ústní ČJ + AJ + VLV + KLN",
+        difficulty: null,
     },
 ];
 
 const difficultyLabels = {
-    1: "lehka",
-    2: "stredni",
-    3: "tezka",
+    1: "lehká",
+    2: "střední",
+    3: "těžká",
 };
 
 function getDaysLabel(days) {
     if (days === 1) return "den";
     if (days >= 2 && days <= 4) return "dny";
-    return "dni";
+    return "dní";
 }
 
 function createDifficultyBadge(level) {
@@ -99,7 +99,7 @@ function createExamCard(exam) {
 
     const labelEl = document.createElement("div");
     labelEl.className = "days-label";
-    labelEl.textContent = done ? "Zkouska probehla" : getDaysLabel(days) + " zbyva";
+    labelEl.textContent = done ? "Zkouška proběhla" : getDaysLabel(days) + " zbývá";
     card.appendChild(labelEl);
 
     if (!done) {
