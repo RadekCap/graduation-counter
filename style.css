@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.exam-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #334155;
+    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.exam-card:hover {
+    transform: translateY(-2px);
+}
+
+.exam-card.done {
+    opacity: 0.5;
+    border-left-color: #22c55e;
+}
+
+.exam-card.done .days-left {
+    color: #22c55e;
+}
+
+/* Difficulty border colors */
+.exam-card.diff-1 { border-left-color: #38bdf8; }
+.exam-card.diff-2 { border-left-color: #f59e0b; }
+.exam-card.diff-3 { border-left-color: #ef4444; }
+
+.exam-date {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.exam-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.difficulty {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.difficulty.diff-1 {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+}
+
+.difficulty.diff-2 {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+
+.difficulty.diff-3 {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.difficulty-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.diff-1 .difficulty-dot { background: #38bdf8; }
+.diff-2 .difficulty-dot { background: #f59e0b; }
+.diff-3 .difficulty-dot { background: #ef4444; }
+
+.days-left {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #38bdf8;
+    line-height: 1;
+}
+
+.days-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+.time-detail {
+    font-size: 0.8rem;
+    color: #475569;
+    margin-top: 0.5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 1.5rem 0.75rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .days-left {
+        font-size: 2rem;
+    }
+}
