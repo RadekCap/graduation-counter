@@ -175,12 +175,36 @@ main {
 .diff-2 .difficulty-dot { background: #f59e0b; }
 .diff-3 .difficulty-dot { background: #ef4444; }
 
-.time-detail {
-    font-size: 0.75rem;
-    color: #475569;
-    margin-top: 0.35rem;
-    font-variant-numeric: tabular-nums;
+/* Legend */
+.legend {
+    max-width: 960px;
+    margin: 2rem auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
+    color: #94a3b8;
+    font-size: 0.8rem;
 }
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-dot.ring-red    { background: #ef4444; }
+.legend-dot.ring-orange { background: #f97316; }
+.legend-dot.ring-yellow { background: #eab308; }
+.legend-dot.ring-blue   { background: #38bdf8; }
+.legend-dot.ring-green  { background: #22c55e; }
 
 /* Mobile */
 @media (max-width: 640px) {
@@ -241,7 +265,4 @@ main {
         display: inline-flex;
     }
 
-    .time-detail {
-        font-size: 0.65rem;
-    }
 }

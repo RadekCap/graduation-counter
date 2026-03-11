@@ -37,7 +37,6 @@ var exams = [
     },
 ];
 
-var REFERENCE_START = new Date("2026-03-01T00:00:00");
 var RING_RADIUS = 38;
 var RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
@@ -74,7 +73,7 @@ function createDifficultyBadge(level) {
     return span;
 }
 
-function createSvgRing(progress, colorClass) {
+function createSvgRing(colorClass) {
     var svgNS = "http://www.w3.org/2000/svg";
     var svg = document.createElementNS(svgNS, "svg");
     svg.setAttribute("viewBox", "0 0 90 90");
@@ -92,8 +91,7 @@ function createSvgRing(progress, colorClass) {
     progressCircle.setAttribute("r", String(RING_RADIUS));
     progressCircle.setAttribute("class", "ring-progress " + colorClass);
     progressCircle.setAttribute("stroke-dasharray", String(RING_CIRCUMFERENCE));
-    var offset = RING_CIRCUMFERENCE * (1 - progress);
-    progressCircle.setAttribute("stroke-dashoffset", String(offset));
+    progressCircle.setAttribute("stroke-dashoffset", "0");
     svg.appendChild(progressCircle);
 
     return svg;
@@ -107,14 +105,6 @@ function createExamCard(exam) {
 
     var totalSeconds = Math.max(0, Math.floor(diff / 1000));
     var days = Math.floor(totalSeconds / 86400);
-    var hours = Math.floor((totalSeconds % 86400) / 3600);
-    var minutes = Math.floor((totalSeconds % 3600) / 60);
-    var seconds = totalSeconds % 60;
-
-    // Progress: fraction of time remaining from reference start to exam
-    var totalSpan = target - REFERENCE_START;
-    var remaining = Math.max(0, target - now);
-    var progress = totalSpan > 0 ? remaining / totalSpan : 0;
 
     var card = document.createElement("div");
     card.className = "exam-card";
@@ -126,7 +116,7 @@ function createExamCard(exam) {
     ringWrap.className = "ring-wrap";
 
     var colorClass = done ? "ring-green" : getRingColor(days);
-    ringWrap.appendChild(createSvgRing(done ? 0 : progress, colorClass));
+    ringWrap.appendChild(createSvgRing(colorClass));
 
     var center = document.createElement("div");
     center.className = "ring-center";
@@ -161,13 +151,6 @@ function createExamCard(exam) {
     if (badge) nameEl.appendChild(badge);
     info.appendChild(nameEl);
 
-    if (!done) {
-        var timeEl = document.createElement("div");
-        timeEl.className = "time-detail";
-        timeEl.textContent = hours + "h " + minutes + "m " + seconds + "s";
-        info.appendChild(timeEl);
-    }
-
     card.appendChild(info);
     return card;
 }
@@ -181,5 +164,26 @@ function render() {
     container.replaceChildren(fragment);
 }
 
+function createLegend() {
+    var legend = document.getElementById("legend");
+    var items = [
+        { color: "ring-red", text: "3 dny a méně" },
+        { color: "ring-orange", text: "4 – 7 dní" },
+        { color: "ring-yellow", text: "8 – 14 dní" },
+        { color: "ring-blue", text: "15 – 30 dní" },
+        { color: "ring-green", text: "více než 30 dní" },
+    ];
+    items.forEach(function (item) {
+        var el = document.createElement("div");
+        el.className = "legend-item";
+        var dot = document.createElement("span");
+        dot.className = "legend-dot " + item.color;
+        el.appendChild(dot);
+        el.appendChild(document.createTextNode(item.text));
+        legend.appendChild(el);
+    });
+}
+
 render();
+createLegend();
 setInterval(render, 1000);
