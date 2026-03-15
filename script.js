@@ -97,11 +97,23 @@ function createSvgRing(colorClass) {
     return svg;
 }
 
-function createExamCard(exam) {
+function getExamState(exam, now) {
+    var target = new Date(exam.date + "T08:00:00");
+    var todayStr = now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2, "0") + "-" +
+        String(now.getDate()).padStart(2, "0");
+    if (todayStr === exam.date) return "today";
+    if (now > target) return "passed";
+    return "upcoming";
+}
+
+function createExamCard(exam, forceState) {
     var now = new Date();
     var target = new Date(exam.date + "T08:00:00");
     var diff = target - now;
-    var done = diff <= 0;
+
+    var state = forceState || getExamState(exam, now);
+    var done = state === "today" || state === "passed";
 
     var totalSeconds = Math.max(0, Math.floor(diff / 1000));
     var days = Math.floor(totalSeconds / 86400);
@@ -109,20 +121,30 @@ function createExamCard(exam) {
     var card = document.createElement("div");
     card.className = "exam-card";
     if (exam.difficulty) card.classList.add("diff-" + exam.difficulty);
-    if (done) card.classList.add("done");
+
+    if (state === "today") {
+        card.classList.add("is-today");
+    } else if (state === "passed") {
+        card.classList.add("done", "is-passed");
+    }
 
     // Ring
     var ringWrap = document.createElement("div");
     ringWrap.className = "ring-wrap";
 
-    var colorClass = done ? "ring-green" : getRingColor(days);
+    var colorClass;
+    if (state === "today") colorClass = "ring-yellow";
+    else if (state === "passed") colorClass = "ring-green";
+    else colorClass = getRingColor(days);
     ringWrap.appendChild(createSvgRing(colorClass));
 
     var center = document.createElement("div");
     center.className = "ring-center";
     var ringDays = document.createElement("div");
     ringDays.className = "ring-days";
-    ringDays.textContent = done ? "Hotovo!" : String(days);
+    if (state === "today") ringDays.textContent = "Dnes!";
+    else if (state === "passed") ringDays.textContent = "Hotovo!";
+    else ringDays.textContent = String(days);
     center.appendChild(ringDays);
 
     if (!done) {
@@ -152,6 +174,15 @@ function createExamCard(exam) {
     info.appendChild(nameEl);
 
     card.appendChild(info);
+
+    // Overlay
+    if (state === "today" || state === "passed") {
+        var overlay = document.createElement("div");
+        overlay.className = "exam-overlay";
+        overlay.textContent = state === "today" ? "\uD83E\uDD1E" : "\u2705";
+        card.appendChild(overlay);
+    }
+
     return card;
 }
 
