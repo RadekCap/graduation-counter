@@ -31,7 +31,7 @@ var exams = [
     },
     {
         date: "2026-05-26",
-        dateLabel: "26. – 29. května",
+        dateLabel: "26. května",
         name: "Ústní ČJ + AJ + VLV + KLN",
         difficulty: null,
     },
