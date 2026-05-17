@@ -32,6 +32,58 @@ header h1 {
     font-size: 1.1rem;
 }
 
+/* Puzzle */
+#puzzle {
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.puzzle-piece {
+    aspect-ratio: 1;
+    background-image: url("puzzle.jpg");
+    background-size: 300% 200%;
+    background-position: var(--bg-pos);
+    position: relative;
+    overflow: hidden;
+}
+
+.puzzle-hidden {
+    background: none;
+}
+
+.puzzle-hidden::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    background-image: url("puzzle.jpg");
+    background-size: 300% 200%;
+    background-position: var(--bg-pos);
+    filter: blur(8px) brightness(0.3);
+}
+
+.puzzle-question {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+    animation: pulse-question 2s ease-in-out infinite;
+}
+
+@keyframes pulse-question {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
 main {
     max-width: 960px;
     margin: 0 auto;
@@ -312,4 +364,14 @@ main {
         display: inline-flex;
     }
 
+    #puzzle {
+        max-width: 100%;
+        margin-bottom: 1.25rem;
+        border-radius: 8px;
+        gap: 2px;
+    }
+
+    .puzzle-question {
+        font-size: 1.8rem;
+    }
 }
