@@ -215,6 +215,49 @@ function createLegend() {
     });
 }
 
+var REVEAL_ORDER = [0, 1, 2, 3, 5, 4];
+
+function renderPuzzle() {
+    var passedCount = 0;
+    var now = new Date();
+    exams.forEach(function (exam) {
+        var state = getExamState(exam, now);
+        if (state === "today" || state === "passed") passedCount++;
+    });
+
+    var revealed = {};
+    for (var i = 0; i < passedCount; i++) {
+        revealed[REVEAL_ORDER[i]] = true;
+    }
+
+    var container = document.getElementById("puzzle");
+    var fragment = document.createDocumentFragment();
+
+    for (var p = 0; p < 6; p++) {
+        var col = p % 3;
+        var row = Math.floor(p / 3);
+        var piece = document.createElement("div");
+        piece.className = "puzzle-piece";
+        piece.style.setProperty("--bg-pos", (col * 50) + "% " + (row * 100) + "%");
+
+        if (!revealed[p]) {
+            piece.classList.add("puzzle-hidden");
+            var q = document.createElement("span");
+            q.className = "puzzle-question";
+            q.textContent = "?";
+            piece.appendChild(q);
+        }
+
+        fragment.appendChild(piece);
+    }
+
+    container.replaceChildren(fragment);
+}
+
+renderPuzzle();
 render();
 createLegend();
-setInterval(render, 1000);
+setInterval(function () {
+    renderPuzzle();
+    render();
+}, 1000);
